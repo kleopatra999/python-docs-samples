@@ -44,7 +44,7 @@ def get_speech_service():
 # [END authenticating]
 
 
-def main(speech_file):
+def main(speech_file, language_code='en-US'):
     """Transcribe the given audio file.
 
     Args:
@@ -60,8 +60,12 @@ def main(speech_file):
     service_request = service.speech().syncrecognize(
         body={
             'config': {
-                'encoding': 'LINEAR16',
-                'sampleRate': 16000
+                # There are a bunch of config options you can specify. See
+                # https://cloud.google.com/speech/reference/rest/Shared.Types/RecognitionConfig  # noqa
+                # for the full list.
+                'encoding': 'LINEAR16',  # raw 16-bit signed LE samples
+                'sampleRate': 16000,  # 16 khz
+                'languageCode': language_code,  # a BCP-47 language tag
             },
             'audio': {
                 'content': speech_content.decode('UTF-8')
